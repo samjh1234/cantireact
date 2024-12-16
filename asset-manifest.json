@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/cantireact/static/css/main.435d5fe5.chunk.css",
+    "main.js": "/cantireact/static/js/main.bf9fdce2.chunk.js",
+    "main.js.map": "/cantireact/static/js/main.bf9fdce2.chunk.js.map",
+    "runtime~main.js": "/cantireact/static/js/runtime~main.93bfc1f6.js",
+    "runtime~main.js.map": "/cantireact/static/js/runtime~main.93bfc1f6.js.map",
+    "static/js/2.a7f37d0f.chunk.js": "/cantireact/static/js/2.a7f37d0f.chunk.js",
+    "static/js/2.a7f37d0f.chunk.js.map": "/cantireact/static/js/2.a7f37d0f.chunk.js.map",
+    "static/js/3.e13311ee.chunk.js": "/cantireact/static/js/3.e13311ee.chunk.js",
+    "static/js/3.e13311ee.chunk.js.map": "/cantireact/static/js/3.e13311ee.chunk.js.map",
+    "index.html": "/cantireact/index.html",
+    "precache-manifest.e98821548b94353b3f2f056aec52283e.js": "/cantireact/precache-manifest.e98821548b94353b3f2f056aec52283e.js",
+    "service-worker.js": "/cantireact/service-worker.js",
+    "static/css/main.435d5fe5.chunk.css.map": "/cantireact/static/css/main.435d5fe5.chunk.css.map",
+    "static/media/logo.svg": "/cantireact/static/media/logo.06e73328.svg"
+  }
+}

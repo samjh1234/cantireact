@@ -1,0 +1,144 @@
+/* General Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inria Serif', serif;
+  background: url('../assets/photos/backgroundfo.png') no-repeat center center;
+  background-size: cover; 
+  height: 100vh;
+  width: 100vw;
+  filter: blur(0.05px);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; 
+}
+
+.container {
+  width: 100vw; 
+  height: 100vh; 
+  background: rgba(255, 255, 255, 0.03); 
+  backdrop-filter: blur(6px); 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+}
+
+.title {
+  font-size: 2rem;
+  color: rgb(5, 0, 0);
+  text-align: center;
+  font-weight: bold;
+}
+
+.category-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.toggle-button {
+  flex: 1;
+  background: rgba(133, 193, 220, 0.5);
+  border: none;
+  color: rgb(9, 0, 0);
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 25px;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.toggle-button.active {
+  background: rgba(133, 193, 220, 0.8);
+}
+
+.form-group {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.form-group input, 
+.form-group textarea {
+  width: 100%; 
+  padding: 5px;
+  border: none;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.5);
+  font-size: 1rem;
+}
+
+.form-group textarea#text {
+  height: 300px; /* Bigger text box */
+}
+
+.form-group textarea#notes {
+  height: 50px; /* Smaller notes box */
+}
+
+.attachment-buttons {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.file-input {
+  flex: 1;
+  background: rgba(133, 193, 220, 0.5);
+  border: none;
+  border-radius: 25px;
+  color: rgb(9, 0, 0);
+  font-size: 1rem;
+  padding: 10px;
+  text-align: center;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.file-input input[type="file"] {
+  display: none; 
+}
+
+.button-bar {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.back-button,
+.submit-button {
+  width: 48%; 
+  padding: 10px;
+  border: none;
+  border-radius: 25px;
+  background: rgba(133, 193, 220, 0.8);
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.back-button:hover,
+.submit-button:hover {
+  background: rgba(133, 193, 220, 1);
+}
+
+@media (max-width: 768px) { 
+  .container {
+    width: 100vw; 
+    height: 100vh; 
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 100vw; 
+    height: 100vh; 
+  }
+}

@@ -128,7 +128,7 @@ const Home = () => {
       <h1 className="title">Canti & Lyrics</h1>
       <p className="subtitle">Lazzaro - S.Fiesole</p>
       <div className="button-group">
-        <button className="button" onClick={() => populateResults()}>Cerca</button>
+        <a href="/db-admin.html" className="button">DB Admin</a>
         <a href="/aggiungi" className="button">Aggiungi</a>
       </div>
 

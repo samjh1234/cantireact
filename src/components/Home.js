@@ -1,31 +1,63 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Dexie from 'dexie';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
+import db from '../db/dexie'; 
 import '../styles/Home.css'; 
 
 const Home = () => {
   const [results, setResults] = useState([]);
-  const hasRunOnce = useRef(false); // 👈 This prevents multiple calls in Strict Mode
+  const [query, setQuery] = useState(''); // This controls the input query
+  const hasRunOnce = useRef(false); 
 
-  // Create and configure the Dexie database
-  const db = new Dexie("LyricsDatabase");
-  db.version(2).stores({
-    lyrics: "++id, category, title, text, notes, photo, photoType, audio, audioType, doc, docType"
-  });
+  // ✅ 1. Populate results dynamically when query changes
+  useEffect(() => {
+    if (query.trim() === '') {
+      populateResults(); // If query is empty, load all results
+    } else {
+      populateResults(query);
+    }
+  }, [query]); 
+
+  // ✅ 2. Populate the database once on load
+  useEffect(() => {
+    if (hasRunOnce.current) return; 
+    hasRunOnce.current = true;
+    checkAndPopulateDatabase();
+  }, []); // Empty dependency array to ensure it runs only once
+
+  // ✅ 3. **Adjust container on orientation change or window resize**
+  useEffect(() => {
+    const adjustContainerSize = () => {
+      const container = document.querySelector('.container');
+      if (container) {
+        container.style.width = `${window.innerWidth}px`;
+        container.style.height = `${window.innerHeight}px`;
+      }
+    };
+
+    adjustContainerSize();
+
+    window.addEventListener('resize', adjustContainerSize);
+    window.addEventListener('orientationchange', adjustContainerSize);
+
+    return () => {
+      window.removeEventListener('resize', adjustContainerSize);
+      window.removeEventListener('orientationchange', adjustContainerSize);
+    };
+  }, []); 
 
   // Function to check if the database is empty and populate it if needed
-  const checkAndPopulateDatabase = async () => {
+  const checkAndPopulateDatabase = useCallback(async () => {
     try {
       const recordsCount = await db.lyrics.count();
       if (recordsCount === 0) {
         console.log('Database is empty, populating from JSON file...');
 
-        const response = await fetch('/scripts/db.json', { cache: 'force-cache' });
+        const response = await fetch(`${process.env.PUBLIC_URL}/scripts/db.json`, { cache: 'force-cache' });
         if (!response.ok) {
           throw new Error(`Failed to fetch db.json: ${response.status} ${response.statusText}`);
         }
 
         const data = await response.json();
-        console.log('Full Data:', data); // 👈 This was running twice
+        console.log('Full Data:', data); 
         const table = data?.data?.data?.find(table => table.tableName === 'lyrics');
         if (!table) {
           throw new Error('Lyrics table not found in the JSON file.');
@@ -42,68 +74,73 @@ const Home = () => {
         console.log('Database already populated with', recordsCount, 'records.');
       }
 
-      populateResults(); // Load the initial results
+      populateResults(); 
 
     } catch (error) {
       console.error('Failed to populate the database:', error);
     }
-  };
+  }, []);
 
-  // Function to populate the results-box dynamically
-  const populateResults = async (query = "") => {
+  // **Updated function to populate results using the 'starts with' and 'contains' logic**
+  const populateResults = useCallback(async (query = "") => {
     try {
-      const results = query
-        ? await db.lyrics
-            .where('title')
-            .startsWithIgnoreCase(query)
-            .or('text')
-            .startsWithIgnoreCase(query)
-            .or('notes')
-            .startsWithIgnoreCase(query)
-            .or('category')
-            .startsWithIgnoreCase(query)
-            .toArray()
-        : await db.lyrics.toArray();
+      if (!query) {
+        const allResults = await db.lyrics.toArray();
+        setResults(allResults.length > 0 ? allResults : [{ id: 0, title: 'Nessun risultato trovato' }]);
+        return;
+      }
 
-      if (results.length === 0) {
+      const normalizedQuery = query.toLowerCase();
+
+      // **Step 1:** First, prioritize "starts with" matches
+      const startsWithResults = await db.lyrics.filter(record => {
+        const searchText = `${record.title || ''} ${record.text || ''} ${record.notes || ''} ${record.category || ''}`.toLowerCase();
+        return searchText.startsWith(normalizedQuery);
+      }).toArray();
+
+      // **Step 2:** Then, add "contains" matches that don't start with the query
+      const containsResults = await db.lyrics.filter(record => {
+        const searchText = `${record.title || ''} ${record.text || ''} ${record.notes || ''} ${record.category || ''}`.toLowerCase();
+        return searchText.includes(normalizedQuery) && !searchText.startsWith(normalizedQuery); 
+      }).toArray();
+
+      // Combine the two sets of results, ensuring no duplicates
+      const combinedResults = [...startsWithResults, ...containsResults];
+
+      if (combinedResults.length === 0) {
         setResults([{ id: 0, title: 'Nessun risultato trovato' }]);
       } else {
-        setResults(results);
+        setResults(combinedResults);
       }
     } catch (error) {
       console.error('Failed to populate the results:', error);
     }
+  }, []);
+
+  // **Handles input change in the search box**
+  const handleSearchInput = (e) => {
+    const query = e.target.value; // No trim() to allow for spaces
+    setQuery(query); // Update the query to trigger the `useEffect`
   };
-
-  useEffect(() => {
-    if (hasRunOnce.current) return; // 🚀 Prevents this from running twice in React 18 Strict Mode
-    hasRunOnce.current = true;
-
-    checkAndPopulateDatabase();
-
-    const handleSearchInput = (e) => {
-      const query = e.target.value.trim().toLowerCase();
-      populateResults(query);
-    };
-
-    document.getElementById("search-input").addEventListener('input', handleSearchInput);
-    
-    return () => {
-      document.getElementById("search-input").removeEventListener('input', handleSearchInput);
-    };
-  }, []); // ✅ Empty dependency array ensures this runs only once
 
   return (
     <div className="container">
       <h1 className="title">Canti & Lyrics</h1>
-      <p className="subtitle">Lazzaro - S.Fiesole</p> {/* NEW LINE ADDED */}
+      <p className="subtitle">Lazzaro - S.Fiesole</p>
       <div className="button-group">
         <button className="button" onClick={() => populateResults()}>Cerca</button>
         <a href="/aggiungi" className="button">Aggiungi</a>
       </div>
 
       <div className="search-box">
-        <input type="text" id="search-input" placeholder="Ricerca" className="search-input" />
+        <input 
+          type="text" 
+          id="search-input" 
+          placeholder="Ricerca" 
+          className="search-input" 
+          value={query}
+          onChange={handleSearchInput} 
+        />
       </div>
 
       <div className="results-box">

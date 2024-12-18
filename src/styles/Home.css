@@ -1,155 +1,155 @@
+/* General Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
-    font-family: 'Inria Serif', serif;
-    background: url('../assets/photos/backgroundfo.png') no-repeat center center;
-    background-size: cover; /* Ensures the image covers the entire container */
-    height: 100vh;
-    width: 100vw;
-    filter: blur(0.05px);
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; /* Prevent scrollbars */
+  font-family: 'Inria Serif', serif;
+  background: url('../assets/photos/backgroundfo.png') no-repeat center center;
+  background-size: cover; /* Ensures the image covers the entire container */
+  height: 100vh;
+  width: 100vw;
+  filter: blur(0.05px);
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Prevent scrollbars */
+}
+
+.container {
+  width: 100vw; /* Full width */
+  height: 100vh; /* Full height */
+  background: rgba(255, 255, 255, 0.03); /* More transparent for maximum visibility of background */
+  backdrop-filter: blur(6px); /* Slight blur */
+  border-radius: 0; /* No border radius for full-page container */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px;
+  box-shadow: none; /* Remove shadow to make the container fully transparent */
+}
+
+.title {
+  font-size: 2rem;
+  color: rgb(5, 0, 0);
+  text-align: center;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  margin-bottom: 1px;
+  font-weight: bold;
+}
+
+.subtitle {
+  font-size: 1rem; /* Smaller size for the subtitle */
+  color: black; /* Change to black or any color */
+  text-align: center;
+  margin: 0px 0;
+  font-weight: 400; /* Lighter weight to differentiate from title */
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.button {
+  flex: 1;
+  background: rgba(133, 193, 220, 0.5);
+  border: none;
+  color: rgb(9, 0, 0);
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 25px;
+  margin: 0 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  text-decoration: none; /* For link buttons */
+  text-align: center;
+  display: inline-block;
+}
+
+.button:hover {
+  background: rgba(133, 193, 220, 0.8);
+}
+
+.search-box {
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  width: 100%;
+  height: auto;
+  margin: 0px 0; /* Center the search box vertically in the container */
+}
+
+.search-input {
+  width: 100%; 
+  max-width: 360px; /* Limit the width of the search box */
+  padding: 12px;
+  border: none;
+  border-radius: 25px;
+  background: rgba(255, 255, 255, 0.5);
+  color: black;
+  font-size: 1rem;
+  text-align: center;
+}
+
+.results-box {
+  width: 100%;
+  height: 60%;
+  background: rgba(0, 0, 0, 0.15); /* Slight background to make text readable */
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  color: rgb(2, 0, 0);
+  text-align: center;
+  font-size: 1.2rem;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.results-box p {
+  cursor: pointer;
+  margin: 5px 0;
+}
+
+.results-box p:hover {
+  text-decoration: underline;
+}
+
+.show-all-button {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 10px;
+}
+
+@media (max-width: 768px) { 
+  body {
+    background-size: cover; /* Full image on mobile */
+    background-position: center;
   }
-  
+
   .container {
-    width: 100vw; /* Full width */
-    height: 100vh; /* Full height */
-    background: rgba(255, 255, 255, 0.03); /* **More transparent** for maximum visibility of background */
-    backdrop-filter: blur(6px); /* Slight blur */
-    border-radius: 0; /* No border radius for full-page container */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    box-shadow: none; /* Remove shadow to make the container fully transparent */
+    width: 100vw; /* Full width for small screens */
+    height: 100vh; /* Full height for small screens */
   }
-  
-  .title {
-    font-size: 2rem;
-    color: rgb(5, 0, 0);
-    text-align: center;
-    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-    margin-bottom: 5px;
-    font-weight: bold;
+}
+
+@media (min-width: 768px) {
+  body {
+    background-size: cover; /* Full image on larger screens */
+    background-position: center;
   }
-  .subtitle {
-    font-size: 1rem; /* Smaller size for the subtitle */
-    color: black; /* Change to black or any color */
-    text-align: center;
-    margin-bottom: 10px; /* Space below the subtitle */
-    font-weight: 400; /* Lighter weight to differentiate from title */
+
+  .container {
+    width: 100vw; /* Full width for large screens */
+    height: 100vh; /* Full height for large screens */
   }
-  
-  .button-group {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-  }
-  
-  .button {
-    flex: 1;
-    background: rgba(133, 193, 220, 0.5);
-    border: none;
-    color: rgb(9, 0, 0);
-    font-size: 1rem;
-    padding: 10px;
-    border-radius: 25px;
-    margin: 0 5px;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-    text-decoration: none; /* For link buttons */
-    text-align: center;
-    display: inline-block;
-  }
-  
-  .button:hover {
-    background: rgba(133, 193, 220, 0.8);
-  }
-  
-  .search-box {
-    width: 100%;
-    margin: 15px 0;
-  }
-  
-  .search-input {
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 25px;
-    background: rgba(255, 255, 255, 0.5);
-    color: black;
-    font-size: 1rem;
-    text-align: center;
-  }
-  
-  .results-box {
-    width: 100%;
-    height: 60%;
-    background: rgba(0, 0, 0, 0.15); /* Slight background to make text readable */
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    color: rgb(2, 0, 0);
-    text-align: center;
-    font-size: 1.2rem;
-    padding: 10px;
-    overflow-y: auto;
-  }
-  
-  .results-box p {
-    cursor: pointer;
-    margin: 5px 0;
-  }
-  
-  .results-box p:hover {
-    text-decoration: underline;
-  }
-  
-  .show-all-button {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-top: 10px;
-  }
-  
-  .fixed-text {
-    position: fixed;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 1rem;
-    color: rgb(3, 0, 0);
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-    font-family: 'Inria Serif', serif;
-    z-index: 10;
-    text-align: center;
-  }
-  
-  @media (max-width: 768px) { 
-    body {
-      background-size: cover; /* Full image on mobile */
-      background-position: center;
-    }
-  
-    .container {
-      width: 100vw; /* Full width for small screens */
-      height: 100vh; /* Full height for small screens */
-    }
-  }
-  
-  @media (min-width: 768px) {
-    body {
-      background-size: cover; /* Full image on larger screens */
-      background-position: center;
-    }
-  
-    .container {
-      width: 100vw; /* Full width for large screens */
-      height: 100vh; /* Full height for large screens */
-    }
-  }
+}
